@@ -237,7 +237,7 @@ int up_Tick(int state){
 	return state;
 }
 
-enum which_SM_States{ down_, default_, up_, off, off_wait};
+enum which_SM_States{ down_, down_Wait, default_, up_, up_Wait, off, off_wait};
 
 int which_SM_Tick(int state){
 	switch(state){
@@ -268,14 +268,14 @@ int which_SM_Tick(int state){
 			}*/
 			break;
 		case up_:
-			if(button == 0x02){
+			/*if(button == 0x02){
 		//		register_ =1;
 				state = default_;
 			}
 			else if(button == 0x03){
 		//		register_ =1;
 				state = off;
-			}
+			}*/
 		/*	else if(button == 0x08){
 				register_ = 2;
 				state = default_;
@@ -284,16 +284,30 @@ int which_SM_Tick(int state){
 				register_ = 2;
 				state = off;
 			}*/
+			if(button ==0x00){
+				state = up_Wait;
+			}
+			break;
+		case up_Wait:
+			if(button == 0x01){
+				state = down_;
+			}
+			else if(button == 0x02){
+				state = default_;
+			}
+			else if(button == 0x03){
+				state = off;
+			}
 			break;
 		case down_:
-			if(button == 0x01){
+		/*	if(button == 0x01){
 		//		register_ = 1;
 				state = default_;
 			}
 			else if(button == 0x03){
 		//		register_ = 1;
 				state = off;
-			}
+			}*/
 		/*	else if(button == 0x04){
 				register_ = 2;
 				state = default_;
@@ -302,7 +316,20 @@ int which_SM_Tick(int state){
 				register_ = 2;
 				state = default_;
 			}*/
+			if(button == 0x00){
+				state =down_Wait;
+			}
 			break;
+		case down_Wait:
+			if(button == 0x02){
+				state = up_;
+			}
+			else if(button == 0x01){
+				state = default_;
+			}
+			else if(button == 0x03){
+				state = off;
+			}
 		case off:
 			if(button == 0x00){
 			state = off_wait;
@@ -331,9 +358,17 @@ int which_SM_Tick(int state){
 			go = 0x01;
 			register_=1;
 			break;
+		case up_Wait:
+			go = 0x01;
+			register_=1;
+			break;
 		case down_:
 			go = 0x02;
 			register_ =1;
+			break;
+		case down_Wait:
+			go = 0x02;
+			register_ = 1;
 			break;
 		case off:
 			go = 0x03;
@@ -522,7 +557,7 @@ int up2_Tick(int state){
 	return state;
 }
 
-enum which_SM_States2{ down2_, default2_, up2_, off2, off2_wait};
+enum which_SM_States2{ down2_, down2_Wait, default2_, up2_, up2_Wait, off2, off2_wait};
 
 int which_SM2_Tick(int state){
 	switch(state){
@@ -553,14 +588,14 @@ int which_SM2_Tick(int state){
 			}*/
 			break;
 		case up2_:
-			if(button == 0x08){
+		/*	if(button == 0x08){
 		//		register_ =1;
 				state = default2_;
 			}
 			else if(button == 0x0C){
 		//		register_ =1;
 				state = off2;
-			}
+			}*/
 		/*	else if(button == 0x08){
 				register_ = 2;
 				state = default_;
@@ -569,16 +604,30 @@ int which_SM2_Tick(int state){
 				register_ = 2;
 				state = off;
 			}*/
+			if(button == 0x00){
+				state = up2_Wait;
+			}
+			break;
+		case up2_Wait:
+			if(button == 0x04){
+				state = down2_;
+			}
+			else if(button == 0x08){
+				state = default2_;
+			}
+			else if(button == 0x0C){
+				state =off2;
+			}
 			break;
 		case down2_:
-			if(button == 0x04){
+			/*if(button == 0x04){
 		//		register_ = 1;
 				state = default2_;
 			}
 			else if(button == 0x0C){
 		//		register_ = 1;
 				state = off2;
-			}
+			}*/
 		/*	else if(button == 0x04){
 				register_ = 2;
 				state = default_;
@@ -587,6 +636,20 @@ int which_SM2_Tick(int state){
 				register_ = 2;
 				state = default_;
 			}*/
+			if(button == 0x00){
+				state = down2_Wait;
+			}
+			break;
+		case down2_Wait:
+			if(button == 0x04){
+				state = default2_;
+			}
+			else if(button == 0x08){
+				state = up2_;
+			}
+			else if(button == 0x0C){
+				state = off2;
+			}
 			break;
 		case off2:
 			if(button == 0x00){
@@ -616,9 +679,17 @@ int which_SM2_Tick(int state){
 			go2 = 0x01;
 			register_ = 2;
 			break;
+		case up2_Wait:
+			go2=0x01;
+			register_=2;
+			break;
 		case down2_:
 			go2= 0x02;
 			register_ =2;
+			break;
+		case down2_Wait:
+			go2=0x02;
+			register_=2;
 			break;
 		case off2:
 			go2 = 0x03;
